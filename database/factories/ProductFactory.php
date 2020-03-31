@@ -9,6 +9,7 @@ $factory->define(Product::class, function (Faker $faker) {
     return [
         //
         'name'=>$faker->word,
+        'imageUrl'=>$faker->imageUrl,
         'detail'=>$faker->paragraph,
         'price'=>$faker->numberBetween(100,1000),
         'stock'=>$faker->randomDigit,
