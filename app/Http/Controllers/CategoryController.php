@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Http\Resources\Category\CategoryCollection;
 use App\Http\Resources\Category\CategoryResource;
 use App\Model\Category;
@@ -28,6 +29,7 @@ class CategoryController extends Controller
     public function create()
     {
         //
+        return view('home');
     }
 
     /**
@@ -39,6 +41,19 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+        $category = new Category;
+        $category->name = $request->name;
+        $category->slug = Str::slug($request->name);
+        $category->imageUrl = $request->imageUrl;
+        $category->status = $request->status;
+
+        $category->save();
+
+        return response([
+            'data'=> new CategoryResource($category)
+        ],201); //created
+
+
     }
 
     /**
@@ -74,6 +89,11 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         //
+        $category->update($request->all());
+        return response([
+            'data'=> new CategoryResource($category)
+        ],201); //created
+
     }
 
     /**
@@ -85,5 +105,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+        $category->delete();
+        return response(null,204); //no content
     }
 }
