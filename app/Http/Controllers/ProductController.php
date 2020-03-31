@@ -23,9 +23,13 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $category_id = $request->input('category_id');
+        if($category_id){
+            return  ProductCollection::collection(Product::where('category_id',$category_id)->paginate(20));
+        }
         return  ProductCollection::collection(Product::paginate(20));
 
     }
