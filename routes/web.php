@@ -26,7 +26,12 @@ Route::get('/', function () {
 
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::resource('/', 'AdminCategoryController');
+
+    Route::resource('category', 'AdminCategoryController');
+
+    Route::resource('product', 'AdminProductController');
+
+
 
 
 });

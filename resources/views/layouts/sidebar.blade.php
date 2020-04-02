@@ -36,8 +36,8 @@
                             ></a>
                             <div class="collapse" id="pagesCollapseCategory" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="login.html">Create</a>
-                                    <a class="nav-link" href="register.html">List</a>
+                                    <a class="nav-link" href="{{route('category.create')}}">Create</a>
+                                    <a class="nav-link" href="{{route('category.index')}}">List</a>
                                 </nav>
                             </div>
 
@@ -53,8 +53,8 @@
                             ></a>
                             <div class="collapse" id="pagesCollapseProduct" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="login.html">Create</a>
-                                    <a class="nav-link" href="register.html">List</a>
+                                    <a class="nav-link" href="{{ route('product.create') }}">Create</a>
+                                    <a class="nav-link" href="{{ route('product.index') }}">List</a>
                                 </nav>
                             </div>
 

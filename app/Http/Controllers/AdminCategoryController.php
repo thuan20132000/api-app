@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Model\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 
 class AdminCategoryController extends Controller
@@ -16,9 +18,7 @@ class AdminCategoryController extends Controller
     public function index()
     {
         //
-
         $categories = Category::paginate(20);
-
         return view('pages.category.index',['categories'=>$categories]);
     }
 
@@ -30,6 +30,7 @@ class AdminCategoryController extends Controller
     public function create()
     {
         //
+        return view('pages.category.create');
 
     }
 
@@ -41,7 +42,45 @@ class AdminCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+
+        if ($request->file('image')) {
+			// File này có thực, bắt đầu đổi tên và move
+			$fileExtension = $request->file('image')->getClientOriginalExtension(); // Lấy . của file
+
+			// Filename cực shock để khỏi bị trùng
+			$fileName = time() . "_" . rand(0,9999999) . "_" . md5(rand(0,9999999)) . "." . $fileExtension;
+
+			// Thư mục upload
+			$uploadPath = public_path('/upload/image'); // Thư mục upload
+
+			// Bắt đầu chuyển file vào thư mục
+            $request->file('image')->move($uploadPath, $fileName);
+
+            $imageUrl = url('/upload/image')."/".$fileName;
+
+
+            // Thành công, show thành công
+		}
+		else {
+			// Lỗi file
+			return redirect()->back()->with('message', 'Upload Failed');
+        }
+
+
+            $category = new Category();
+            $category->name = $request->name;
+            $category->slug = Str::slug($request->name,'-');
+            $category->imageUrl = $imageUrl;
+            $category->status = $request->status;
+
+            $category->save();
+
+            return redirect()->back()->with('message',"Created Successful");
+
+
+
     }
 
     /**
@@ -53,6 +92,11 @@ class AdminCategoryController extends Controller
     public function show($id)
     {
         //
+        $category = Category::find($id);
+
+        return response()->json([
+            'data'=>$category,
+        ]);
     }
 
     /**
@@ -76,6 +120,13 @@ class AdminCategoryController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $category = Category::find($id);
+
+        $category->update($request->all());
+        return response()->json([
+            'state'=>$request->all()
+        ]);
+
     }
 
     /**
@@ -91,9 +142,9 @@ class AdminCategoryController extends Controller
 
         $category->delete();
 
-        return response([
-            null
-        ],204);
+        return response()->json([
+            'state'=>204
+        ]);
 
     }
 }
