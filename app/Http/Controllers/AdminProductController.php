@@ -10,7 +10,9 @@ use App\Model\Product;
 use App\Model\Sizes;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\Console\Input\Input;
 
+use function GuzzleHttp\json_encode;
 
 class AdminProductController extends Controller
 {
@@ -164,11 +166,26 @@ class AdminProductController extends Controller
      */
     public function update(Request $request,$id)
     {
-        //
 
-        return response()->json([
-            'data'=>$request->all()
-        ]);
+
+
+
+        // if ($files = $request->input('name')) {
+
+        //     $image = $request->image->store('public/images');
+
+        //     return Response()->json([
+        //         "success" => true,
+        //         "image" => $image
+        //     ]);
+
+        // }
+
+        return Response()->json([
+                "success" => $request->all(),
+                "image" => ''
+            ]);
+
 
     }
 

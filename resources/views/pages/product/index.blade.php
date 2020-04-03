@@ -73,7 +73,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="padding:20px">
 
-        <form enctype="multipart/form-data"  id="update_form" name="fileInfo">
+        <form enctype="multipart/form-data"  id="update_form">
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -164,7 +164,7 @@
                         <div class="input-group">
                             <span class="input-group-btn">
                                 <span class="btn btn-default btn-file">
-                                    <input name="image" type="file" id="imgInp">
+                                    <input name="image[]" type="file" id="imgInp" multiple>
                                 </span>
                             </span>
                             <input type="text" class="form-control" readonly hidden >
@@ -197,7 +197,7 @@
                 </label>
             </div>
             <div class="form-group" style="width:50%;margin:auto">
-                <button style="width:200px" type="button" class="btn btn-success updateProduct" >Update</button>
+                <button style="width:200px" type="submit" class="btn btn-success updateProduct" >Update</button>
             </div>
 
           </form>

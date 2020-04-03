@@ -138,7 +138,6 @@
         $('#editModal').modal("toggle");
 
 
-
         $.ajax({
             method: 'GET',
             url: 'product/'+idProduct+'/edit',
@@ -169,7 +168,7 @@
 
 
 
-
+    var form = document.querySelector('#update_form');
 
 
     //
@@ -193,10 +192,13 @@
             });
 
 
-    var form = document.forms.namedItem("fileInfo");
 
-    $('.updateProduct').on('click',function(event){
+
+
+
+    $('#update_form').on('submit',function(event){
         event.preventDefault();
+        var formData = new FormData(this);
 
         $.ajaxSetup({
             headers: {
@@ -206,7 +208,7 @@
 
          $status = $('input[name=status]:checked').val();
          $name = $('.name').val();
-         $imgUrl = $() ;
+        //  $imgUrl = $() ;
          $description = $('.description').val();
          $price = $('.price').val();
          $discount = $('.discount').val();
@@ -215,29 +217,24 @@
          $size = $('.size').val();
          $category = $('.category').val();
 
-        var form_data = new FormData();
-
-
-        var file = $("#imgInp").files[0];
-        form_data.append("attachment", attachment_data);
-
         $.ajax({
             method: 'PUT',
-            url: 'category/' + idCategory,
-            contentType: false,
+            url: 'product/' + idProduct,
+            // cache:false,
+            contentType: true,
             processData: false,
-            // data:{
-            //     'name':$name,
-            //     'status':$status,
-            //     'description':$description,
-            //     'price':$price,
-            //     'discount':$discount,
-            //     'stock':$stock,
-            //     'colot':$color,
-            //     'size':$size,
-            //     'status':$stock,
-            // },
-            data: form_data,
+            data:{
+                'name':$name,
+                'status':$status,
+                'description':$description,
+                'price':$price,
+                'discount':$discount,
+                'stock':$stock,
+                'color':$color,
+                'size':$size,
+                'fi':formData
+            },
+            // data:formData,
             success:function($result){
                 console.log($result);
                 // toastr.options.showEasing = 'swing';
@@ -249,7 +246,8 @@
                 // }, 1500);
 
             }
-        })
+        });
+
     });
 
 
